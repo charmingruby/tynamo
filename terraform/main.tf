@@ -1,0 +1,3 @@
+module "dynamo" {
+  source = "./dynamo"
+}

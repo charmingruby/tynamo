@@ -2,7 +2,7 @@ services:
   localstack:
     image: localstack/localstack:1.3.1
     environment:
-      - AWS_DEFAULT_REGION=sa-east-1
+      - AWS_DEFAULT_REGION=us-east-1
       - AWS_ACCESS_KEY_ID=tynamo
       - AWS_SECRET_ACCESS_KEY=tynamo
       - EDGE_PORT=4566
