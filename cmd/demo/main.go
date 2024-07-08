@@ -5,6 +5,8 @@ import (
 	"log/slog"
 	"os"
 
+	"github.com/charmingruby/tynamo/internal/factory"
+	"github.com/charmingruby/tynamo/internal/repository/dynamo"
 	"github.com/charmingruby/tynamo/pkg/aws"
 )
 
@@ -15,8 +17,17 @@ func main() {
 	cfg, err := aws.NewAWSConfig()
 	if err != nil {
 		slog.Error(fmt.Sprintf("[AWS CONFIG] %s", err.Error()))
+		os.Exit(1)
 	}
 
-	_ = aws.NewDynamoConnection(cfg)
+	dummyExample := factory.MakeExample("dummy title")
 
+	db := aws.NewDynamoConnection(cfg)
+
+	exampleRepo := dynamo.NewDynamoExampleRepository(db)
+
+	if err := exampleRepo.Store(dummyExample); err != nil {
+		slog.Error(fmt.Sprintf("[DYNAMO] %s", err.Error()))
+		os.Exit(1)
+	}
 }
