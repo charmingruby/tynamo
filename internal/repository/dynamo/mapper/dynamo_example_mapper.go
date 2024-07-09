@@ -7,6 +7,14 @@ import (
 	"github.com/charmingruby/tynamo/internal/model"
 )
 
-func ExampleToDynamo(e *model.Example) (map[string]types.AttributeValue, error) {
+func ExampleModelToDynamo(e *model.Example) (map[string]types.AttributeValue, error) {
 	return attributevalue.MarshalMap(e)
+}
+
+func ExampleDynamoToModel(e map[string]types.AttributeValue) model.Example {
+	var example model.Example
+
+	attributevalue.UnmarshalMap(e, &example)
+
+	return example
 }

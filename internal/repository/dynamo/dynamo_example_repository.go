@@ -20,7 +20,7 @@ type DynamoExampleRepository struct {
 }
 
 func (r *DynamoExampleRepository) Store(example *model.Example) error {
-	data, err := mapper.ExampleToDynamo(example)
+	data, err := mapper.ExampleModelToDynamo(example)
 	if err != nil {
 		return err
 	}
@@ -36,4 +36,23 @@ func (r *DynamoExampleRepository) Store(example *model.Example) error {
 	}
 
 	return nil
+}
+
+func (r *DynamoExampleRepository) List() ([]model.Example, error) {
+
+	input := &dynamodb.ScanInput{
+		TableName: aws.String("examples"),
+	}
+
+	result, err := r.db.Scan(context.TODO(), input)
+	if err != nil {
+		return nil, err
+	}
+
+	var examples []model.Example
+	for _, item := range result.Items {
+		examples = append(examples, mapper.ExampleDynamoToModel(item))
+	}
+
+	return examples, nil
 }

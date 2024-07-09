@@ -11,15 +11,19 @@ import (
 const LocalStackEndpoint = "http://localhost:4566"
 
 var (
-	awsRegion    = "us-east-1"
-	awsAccessKey = "tynamo"
-	awsSecretKey = "tynamo"
+	AwsRegion = "us-east-1"
 )
 
 func NewAWSConfig() (*aws.Config, error) {
-	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithRegion(awsRegion),
-		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(awsAccessKey, awsSecretKey, "")),
+	cfg, err := config.LoadDefaultConfig(
+		context.TODO(),
+		config.WithRegion(AwsRegion),
+		config.WithCredentialsProvider(credentials.StaticCredentialsProvider{
+			Value: aws.Credentials{
+				AccessKeyID: "tynamo", SecretAccessKey: "tynamo", SessionToken: "tynamo",
+				Source: "hard-coded credentials, values are irrelevant for local DynamoDB",
+			},
+		}),
 	)
 	if err != nil {
 		return nil, err
