@@ -31,13 +31,7 @@ $ cd ./terraform
 $ make run-tf
 ```
 
-## 3 - Iniciar configurações feitas no Terraform
-
-```
-$ make run-tf
-```
-
-## 4 - Executar Go app (raiz do projeto)
+## 3 - Executar Go app (raiz do projeto)
 
 ```
 $ make run
